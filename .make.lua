@@ -288,6 +288,18 @@ make.recipe{
 
 make.alias("v", "verify")
 
+make.recipe{
+  name = "nix-build",
+  desc = "build the Nix package",
+  run = function() sh.nix("build", "--accept-flake-config", ".#geto", "-L") end,
+}
+
+make.recipe{
+  name = "nix-check",
+  desc = "check the flake and package",
+  run = function() sh.nix("flake", "check", "--accept-flake-config", "-L") end,
+}
+
 ---------------------------------------------------------------------------- installing
 
 make.recipe{

@@ -31,6 +31,27 @@ Building needs [LDC](https://github.com/ldc-developers/ldc) and
 [dub](https://dub.pm), plus the OpenSSL, xz, bzip2, zstd and zlib development
 headers. The flake's dev shell (`nix develop`) provides all of them.
 
+### Nix binary cache
+
+Tagged releases are cached for `x86_64-linux` and `aarch64-linux`:
+
+```sh
+cachix use termworks
+nix build --accept-flake-config github:termworks/geto/v0.5.1
+nix run --accept-flake-config github:termworks/geto/v0.5.1 -- --help
+```
+
+The public cache is `https://termworks.cachix.org`, with signing key
+`termworks.cachix.org-1:Ty7sSVALfD5ajbcWBIdaNHcaEx3fEmVrOo+rSzy0mvE=`.
+Only pushed `v*` tags publish to this cache. Use a release tag for cached builds;
+branch revisions may need compilation. Local checks are `make nix-build` and
+`make nix-check`.
+
+From another flake, use `inputs.geto.url = "github:termworks/geto/v0.5.1"`
+and `geto.packages.${system}.default`. Enable the cache on the consuming machine
+with `cachix use termworks`; dependency flakes do not apply their `nixConfig`
+automatically. Existing NixOS and Home Manager modules remain available.
+
 > **Linux only.** The D rewrite builds on
 > [mochafizz](https://github.com/bresilla/mochafizz), which targets Linux, so
 > the Windows binaries the Go releases used to ship are no longer produced.

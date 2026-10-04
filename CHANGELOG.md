@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.5.1] - 2026-10-04
+
+### <!-- 7 -->⚙️ Miscellaneous Tasks
+
+- Cache geto tagged releases
+
 ## [0.5.0] - 2026-08-23
 
 ### <!-- 0 -->⛰️  Features

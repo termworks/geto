@@ -1,6 +1,11 @@
 {
   description = "geto binary manager";
 
+  nixConfig = {
+    extra-substituters = [ "https://termworks.cachix.org" ];
+    extra-trusted-public-keys = [ "termworks.cachix.org-1:Ty7sSVALfD5ajbcWBIdaNHcaEx3fEmVrOo+rSzy0mvE=" ];
+  };
+
   inputs = {
     # Pinned to a rev that still accepts the `kernel` arg in
     # nvidia-x11/generic.nix. Newer nixpkgs (post 2026-04) dropped
@@ -83,6 +88,13 @@
           drv = getoPackage;
           exePath = "/bin/geto";
         };
+
+        apps.geto = flake-utils.lib.mkApp {
+          drv = getoPackage;
+          exePath = "/bin/geto";
+        };
+
+        checks.geto = getoPackage;
 
         devShells.default = pkgs.mkShell {
           packages = [
