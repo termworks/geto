@@ -33,9 +33,10 @@ headers. The flake's dev shell (`nix develop`) provides all of them.
 
 ### Nix binary cache
 
-Only the latest release per package and architecture is protected from cache
-cleanup. Pins use `*-latest-*` with `--keep-revisions 1`; older releases may
-need rebuilding after garbage collection.
+Each package and architecture uses one stable pin, such as
+`geto-x86_64-linux`, with `--keep-revisions 5`. The five newest pin revisions
+are protected from cache cleanup; each binary retains its actual package version.
+Older revisions become eligible for garbage collection and may need rebuilding.
 
 Tagged releases are cached for `x86_64-linux` and `aarch64-linux`:
 

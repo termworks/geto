@@ -52,7 +52,7 @@ jobs:
         run: |
           cachix push termworks < "$RUNNER_TEMP/geto-store-paths"
           path=$(cat "$RUNNER_TEMP/geto-store-paths")
-          cachix pin termworks "geto-latest-$SYSTEM" "$path" --keep-revisions 1
+          cachix pin termworks "geto-$SYSTEM" "$path" --keep-revisions 5
 
   verify-download:
     needs: publish
