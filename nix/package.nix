@@ -47,7 +47,7 @@ let
     dontFixup = true;
     outputHashMode = "recursive";
     outputHashAlgo = "sha256";
-    outputHash = "sha256-aNtuBW1IZYxbY38f14AQDAaPhI0rGz0rMJrCNibBGJ8=";
+    outputHash = "sha256-ulF4eAJAJv3mbWvGIN840tfIkjchaPYeOIhJoonYigA=";
   };
 in
 stdenv.mkDerivation {
@@ -92,6 +92,18 @@ stdenv.mkDerivation {
   # has to be added to the RPATH by hand or every HTTPS request fails.
   postFixup = ''
     patchelf --add-rpath ${lib.makeLibraryPath [ openssl ]} $out/bin/geto
+  '';
+
+  doInstallCheck = true;
+  installCheckPhase = ''
+    runHook preInstallCheck
+    export GETO_CONFIG_HOME=$TMPDIR/geto-config
+    export GETO_STATE_HOME=$TMPDIR/geto-state
+    export GETO_DEFAULT_PATH=$TMPDIR/geto-bin
+    test "$($out/bin/geto --version)" = 'geto ${version}'
+    $out/bin/geto --help
+    patchelf --print-rpath $out/bin/geto | grep -F '${lib.makeLibraryPath [ openssl ]}'
+    runHook postInstallCheck
   '';
 
   meta = {
